@@ -1,9 +1,10 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const { Client } = require("pg");
 
 // Define the connection string (replace with your actual connection string)
-const TUROVER_DB =
-  "postgres://postgres.rmtjhbulbwiqfrrxxzqt:tJJ8Mra9FrANl05q@aws-0-ap-south-1.pooler.supabase.com:5432/postgres";
-
+const TUROVER_DB = process.env.TUROVER_DB;
+console.log("db url", TUROVER_DB);
 async function keepDbAlive() {
   try {
     // Create a new PostgreSQL client
