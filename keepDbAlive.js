@@ -1,8 +1,9 @@
-const dotenv = require("dotenv");
-dotenv.config();
 const { Client } = require("pg");
-
+const dotenv = require("dotenv");
+const express = require("express");
+dotenv.config();
 // Define the connection string (replace with your actual connection string)
+const app = express();
 const TUROVER_DB = process.env.TUROVER_DB;
 console.log("db url", TUROVER_DB);
 async function keepDbAlive() {
@@ -40,3 +41,21 @@ setInterval(keepDbAlive, 1000 * 60 * 5); // 5 minutes interval
 
 // Initial call to keep the database alive immediately
 keepDbAlive();
+
+app.get("/health", (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: "server running fine",
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      message: e.message,
+    });
+  }
+});
+
+app.listen(3000, () => {
+  console.log(`server running on port 3000`);
+});
